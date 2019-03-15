@@ -1,0 +1,71 @@
+{% extends 'base.html' %} {% block body %}
+    <br>
+    <h2>Movies</h2>
+    {% if user.is_authenticated %}
+        <div class="btn-toolbar" role="toolbar">
+            <a class="btn btn-light btn-outline-secondary mr-0 ml-auto"
+               href="{% url 'moviedb:create_movie' %}">New movie</a>
+        </div>
+    {% endif %}
+    <br>
+    <div class="card border-0">
+        <ul class="list-group list-group-flush">
+            {% for movie in movies %}
+                <li class="list-group-item">
+                    <div class="row no-gutters">
+                        <div class="col-md-2">
+                            {% if movie.logo %}
+                                <img src="{{ movie.logo.url }}" alt="logo"
+                                     class="card-img">
+                            {% else %}
+                                <img src="https://cdn1.vectorstock.com/i/1000x1000/74/00/cartoon-megaphone-cinema-movie-icon-vector-11587400.jpg"
+                                     alt="logo" class="card-img">
+
+                            {% endif %}
+                        </div>
+                        <div class="col-md">
+                            <div class="card-body card-text">
+                                <a href="{% url 'moviedb:movie_detail' movie.pk %}"> {{ movie.title }}</a>
+                                <br> {{ movie.description }}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% empty %}
+                <p> No movie is available.</p>
+            {% endfor %}
+        </ul>
+    </div>
+    {% if is_paginated %}
+        <nav aria-label="Page navigation Movie"></nav>
+        <ul class="pagination justify-content-end">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?page={{ page_obj.previous_page_number }}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled"><span class="page-link">&laquo;</span>
+                </li>
+            {% endif %} {% for i in paginator.page_range %}
+            {% if page_obj.number == i %}
+                <li class="page-item active" aria-current="page"><span
+                        class="page-link"> {{ i }} <span class="sr-only">(current)</span></span>
+                </li>
+            {% else %}
+                <li class="page-item"><a class="page-link"
+                                         href="?page={{ i }}"> {{ i }}  </a>
+                </li>
+            {% endif %} {% endfor %} {% if page_obj.has_next %}
+            <li class="page-item"><a class=" page-link "
+                                     href="?page={{ page_obj.next_page_number }} ">&raquo;</a>
+            </li>
+        {% else %}
+            <li class="disabled "><span class="page-link">&raquo;</span></li>
+        {% endif %}
+        </ul>
+        </nav>
+    {% endif %} {% endblock %}

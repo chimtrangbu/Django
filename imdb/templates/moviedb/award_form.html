@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% load static %} {% load widget_tweaks %}
+{% block body %}
+    <form method="post">{% csrf_token %}
+        <br> {{ form.name.label_tag }}
+        {% render_field form.name class="form-control" %}
+
+        <br> {{ form.kind.label_tag }}
+        <br> {% render_field form.kind class="form-control" id="kind" %}
+
+        <div id="movie_group">
+            <br> {{ form.movies.label_tag }} {% render_field form.movies class="form-control" %}
+        </div>
+        <div id="actor_group">
+            <br> {{ form.actors.label_tag }} {% render_field form.actors class="form-control" %}
+        </div>
+
+        <br> {{ form.poster.label_tag }}
+        <br> {% render_field form.poster %}
+
+        <br/><br/>
+        <button type="submit" class="btn btn-light btn-outline-secondary">
+            Create
+        </button>
+    </form>
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $("#movie_group").hide();
+        $("#actor_group").hide();
+        $(document).ready(function () {
+            $('#kind').on('change', function () {
+                if ($('#kind').val() === "Actor") {
+                    $("#movie_group").hide();
+                    $("#actor_group").show();
+                } else {
+                    $("#actor_group").hide();
+                    $("#movie_group").show();
+                }
+            })
+        })
+    </script>
+
+{% endblock %}

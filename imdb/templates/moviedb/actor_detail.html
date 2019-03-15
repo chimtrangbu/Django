@@ -1,0 +1,100 @@
+{% extends "base.html" %} {% load static %} {% load widget_tweaks %} {% block body %}
+
+<div class="card border-0">
+    <div class="row no-gutters">
+        <div class="col-md-2">
+            {% if object.avatar %}
+                <img src="{{ object.avatar.url }}" alt="logo" class="card-img">
+            {% else %}
+                <img src="data:image/png;base64,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" alt="logo" class="card-img">
+            {% endif %}
+        </div>
+        <div class="col-md">
+            <div class="card-body card-text">
+                <h2> <strong> Name: </strong> {{ object.first_name }} {{ object.last_name }}</h2>
+                <p> <strong> Birthday: </strong> {{ object.birthdate }}</p>
+                <p> <strong> Sex: </strong> {{ object.sex }}</p>
+                <p> <strong> Nationality: </strong> {{ object.nationality }}</p>
+                <strong> Movie: </strong>
+                <ul>
+                    {% for movie in object.get_movies.all %}
+                    <li><a href="{% url 'moviedb:movie_detail' movie.pk %}"> {{ movie.title }} </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% if user.is_authenticated %}
+<div>
+    <a class="float-right btn btn-light btn-outline-secondary" href="{% url 'moviedb:update_actor' object.pk %}">update</a>
+    <a class="float-right mr-3 btn btn-light btn-outline-secondary" href="{% url 'moviedb:delete_actor' object.pk %}">delete</a>
+</div>
+{% endif %}
+<br/><br/>
+<h3> <strong> COMMENTS </strong></h3><br/> {% if user.is_authenticated %}
+<form method="post">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Add a comment" aria-label="Comment" aria-describedby="button-addon2" name="content">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Comment
+                    </button>
+        </div>
+    </div>
+</form>
+{% endif %} {% for comment in comments %}
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">{{ comment.user }} <span class="badge badge-light badge-pill">{{ comment.time }}</span>
+        </h5>
+        {{ comment.content }} {% if comment.user == user %}
+        <form method="post" action="{% url 'moviedb:update_commentactor' comment.pk %}">
+            {% csrf_token %}
+            <div class="modal fade" id="modifyComment{{ comment.pk }}" tabindex="-1" role="dialog" aria-labelledby="editCommentLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editCommentLabel">
+                                Edit comment</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {% for field in edit_comment_form %}
+                            <div class="form-group">
+                                {% render_field field class="form-control" type="textarea" placeholder=comment.content %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                                Edit
+                                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form action="{% url 'moviedb:delete_commentactor' comment.pk %}" method="post">
+            {% csrf_token %}
+            <div class="col-md-12 text-right">
+                <button type="button" class="btn btn-outline-secondary border-0" data-toggle="modal" data-target="#modifyComment{{ comment.pk }}">
+                                    edit
+                                </button>
+                <button type="submit" class="btn btn-outline-secondary border-0" onclick="return confirm('Are you sure you want to delete comment?');">
+                                    delete
+                                </button>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endfor %} {% endblock %}

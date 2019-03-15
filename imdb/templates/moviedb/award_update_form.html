@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block body %}
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+        <h5>{{ object.name }}</h5>
+        <br> Kind: {{ object.kind }}
+        {% if object.kind == "Movie" %}
+            <div id="movie_group">
+                <br>
+                {{ form.movies.label_tag }}
+                {% render_field form.movies class="form-control" %}
+            </div>
+        {% else %}
+            <div id="actor_group">
+                <br>
+                {{ form.actors.label_tag }}
+                {% render_field form.actors class="form-control" %}
+            </div>
+        {% endif %}
+
+        <br> {{ form.poster.label_tag }}
+        <br> {% render_field form.poster %}
+
+        <br/><br/>
+        <button type="submit" class="btn btn-light btn-outline-secondary">
+            Update
+        </button>
+    </form>
+{% endblock %}

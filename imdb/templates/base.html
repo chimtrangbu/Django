@@ -1,0 +1,89 @@
+{% load staticfiles %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+
+    <title> {% block tittle %} {% endblock %} </title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light mb-4">
+        <div class="container">
+            {# <a class="navbar-brand" href="{% url 'home' %}">IMDB</a>#}
+            <a class="navbar-brand" href="{% url 'home' %}"><img height="70px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG8AAABvCAMAAADVG25SAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAY1BMVEX////+8fD+9vbyZGHxV1TwTEn6w8LvNzTvOTXuKSX5uLfwUE3vPDnuLSnzdXPxXVruMC33pqX4tbT6x8b2mJb3oqD3sbD1kpH1jIrtEgruIh3//Pz6vbzuJSDyb23+7Ov95+Zr1S7PAAAAAWJLR0QAiAUdSAAAAAd0SU1FB+MDAwkEA/uluYMAAAAJdnBBZwAAAcUAAABvABDlTtIAAAE3SURBVGje7dpbj4IwEIZhlIqDUqmo9cC67v//lZuIh7ZTEMGiid97OUx8hBsJEkUIfX6j0I1tLhZhmyS2N5lS0NKZ7c0pC5qEBw8evOE9mp5rGLzUI7E4l18nFFeDXpeg3lPLalSoyyBdVYO16mg98DbVSN+8y0/XFh48eG/zdvuDm/UNFDt8kH28cuxWagNUmi2UM9nD81TcTyCTBT/+A+/7PJlEJYt7SrO1bh6J2C3X3KM5W4sFdfCu9y9G6YZ7njXjlucZj6d8XmPw4MGDBw8ePHjw4MGDBw8ePHjw4AX2Uu+DMNs71u886yW/i3s5eb2VuSOol2c+zXQvrnen8f/BFp5ZUeOZwftOb3v6czstHW/t2dl18zJ15Lkf1WanrRckePDg1XtDvx858PufQ7/fitBH9g8b45C0HPHWHQAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wMy0wM1QxNjowMDozMyswNzowMEHWNDgAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDMtMDNUMTY6MDA6MjQrMDc6MDA5hrKUAAAAAElFTkSuQmCC"
+                    alt="logo Intek" /></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'moviedb:movie' %}">Movies</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'moviedb:actor' %}">Actors</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'moviedb:award' %}">Awards</a>
+                    </li>
+                </ul>
+                {% if user.is_authenticated %}
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ user.username }}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'password_change' %}">Change
+                                Password</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+                {% else %}
+                <form class="form-inline my-2 my-lg-0">
+                    <a href="{% url 'signup' %}" class="btn btn-outline-secondary"> Sign Up </a>
+                    <a href="{% url 'login' %}" class="btn btn-primary ml-2">
+                        Login </a>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- <a href="{% url 'home'%}"> Home </a> |
+      {% if user.is_authenticated %} -->
+        <!-- <a href="{% url 'profile' %}"> Newfeeds </a> |
+          <a href="{% url 'password_change' %}"> Change Password </a> |
+          <a href="{% url 'logout'%}"> Logout </a>
+          <strong> You are logged in as {{user.username}} </strong>
+      {% else %} -->
+        <!-- <a href="{% url 'signup'%}"> Sign Up </a> |
+          <a href="{% url 'login'%}"> Login </a> -->
+        <!-- {% endif %} -->
+
+        {% block content %} {% endblock %} {% block body %} {% endblock %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    {% block javascripts %} {% endblock %}
+</body>
+
+</html>

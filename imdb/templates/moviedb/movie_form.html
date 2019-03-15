@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load widget_tweaks %}
+{% block body %}
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+        <br/>
+        {{ form.title.label_tag }}
+        {% render_field form.title class="form-control" %}
+        <br/>
+        {{ form.description.label_tag }}
+        {% render_field form.description class="form-control" %}
+        <br/>
+        {{ form.actors.label_tag }}
+        {% render_field form.actors class="form-control" %}
+        <br/>
+        {{ form.category.label_tag }}
+        {% render_field form.category class="form-control" %}
+        <br/>
+        {{ form.release_date.label_tag }}
+        {% render_field form.release_date class="form-control" type="date" %}
+        <br/>
+        {{ form.logo.label_tag }}
+        {% render_field form.logo %}
+        <br/><br/>
+        <button type="submit" class="btn btn-light btn-outline-secondary">Create</button>
+    </form>
+{% endblock %}

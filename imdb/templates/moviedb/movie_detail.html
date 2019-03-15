@@ -1,0 +1,113 @@
+{% extends "base.html" %} {% load static %} {% load widget_tweaks %} {% block body %}
+
+<div class="card border-0 mb-5">
+    <div class="row no-gutters">
+        <div class="col-md-3">
+            {% if object.logo %}
+            <img src="{{ object.logo.url }}" alt="logo" class="card-img">
+            {% else %}
+                <img src="https://cdn1.vectorstock.com/i/1000x1000/74/00/cartoon-megaphone-cinema-movie-icon-vector-11587400.jpg" alt="logo" class="card-img">
+            {% endif %}
+        </div>
+        <div class="col-md">
+            <div class="card-body card-text">
+                <h1>{{ object.title }}</h1>
+                <p><strong> Description: </strong> {{ object.description }}
+                </p>
+                <p><strong> Release
+                        day: </strong> {{ object.release_date }}</p>
+                <strong> Category: </strong>
+                <ul>
+                    {% for cate in object.category.all %}
+                    <li>
+                        <a href=" "></a> {{ cate }}</li>
+                    {% endfor %}
+                </ul>
+                <strong> Actors: </strong>
+                <ul>
+                    {% for actor in object.actors.all %}
+                    <li>
+                        <a href="{% url 'moviedb:actor_detail' actor.pk %}">{{ actor.first_name }} {{ actor.last_name }} </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% if user.is_authenticated %}
+<div>
+    <a class="float-right btn btn-light btn-outline-secondary" href="{% url 'moviedb:update_movie' object.pk %}">update</a>
+    <a class="float-right mr-3 btn btn-light btn-outline-secondary" href="{% url 'moviedb:delete_movie' object.pk %}">delete</a>
+</div>
+{% endif %}
+
+
+
+<br/><br/>
+<h3> <strong> REVIEWS </strong></h3><br/> {% if user.is_authenticated %}
+<form method="post">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Add a comment" aria-label="Comment" aria-describedby="button-addon2" name="content">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Comment
+                        </button>
+        </div>
+    </div>
+</form>
+{% endif %} {% for comment in comments %}
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">{{ comment.user }} <span class="badge badge-light badge-pill">{{ comment.time }}</span>
+        </h5>
+        {{ comment.content }} {% if comment.user == user %}
+        <form method="post" action="{% url 'moviedb:update_commentmovie' comment.pk %}">
+            {% csrf_token %}
+            <div class="modal fade" id="modifyComment{{ comment.pk }}" tabindex="-1" role="dialog" aria-labelledby="editCommentLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editCommentLabel">
+                                Edit comment</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {% for field in edit_comment_form %}
+                            <div class="form-group">
+                                {% render_field field class="form-control" type="textarea" placeholder=comment.content %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                                Edit
+                                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form action="{% url 'moviedb:delete_commentmovie' comment.pk %}" method="post">
+            {% csrf_token %}
+            <div class="col-md-12 text-right">
+                <button type="button" class="btn btn-outline-secondary border-0" data-toggle="modal" data-target="#modifyComment{{ comment.pk }}">
+                                    edit
+                                </button>
+                <button type="submit" class="btn btn-outline-secondary border-0" onclick="return confirm('Are you sure you want to delete comment?');">
+                                    delete
+                                </button>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endfor %} {% endblock %}
